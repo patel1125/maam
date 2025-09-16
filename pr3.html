@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Color Palette</title>
+</head>
+<body>
+  <h3>Select and Display Color</h3>
+
+  <label>Set color : </label>
+  <input type="color" id="colorPicker">
+  <button onclick="setColor()">Set Color</button>
+
+  <div id="colorBox" style="margin-top:20px; width:150px; height:150px; border:1px solid #000;"></div>
+
+  <script>
+    function setColor() {
+      let selectedColor = document.getElementById("colorPicker").value;
+      document.getElementById("colorBox").style.backgroundColor = selectedColor;
+    }
+  </script>
+</body>
+</html>

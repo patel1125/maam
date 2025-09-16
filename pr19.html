@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fees Payment Module</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+  <style>
+    body { font-family: Arial; background:#f4f4f4; padding:20px; }
+    .box { width:450px; margin:auto; background:#fff; padding:20px; border-radius:6px; box-shadow:0 0 5px #999; }
+    input, select { width:100%; padding:8px; margin:6px 0; border:1px solid #ccc; border-radius:4px; }
+    label { font-weight:bold; display:block; margin-top:5px; }
+    .hide { display:none; }
+    button { padding:10px; background:crimson; color:white; border:none; cursor:pointer; margin-top:10px; width:100%; border-radius:4px; }
+    button:hover { background:darkred; }
+    h3 { text-align:center; }
+  </style>
+</head>
+<body>
+
+<div class="box" id="payBox">
+  <h3>Payment Module</h3>
+
+  <label>Enter Name:</label>
+  <input type="text" id="name">
+
+  <label>Total Fees:</label>
+  <input type="number" id="total">
+
+  <label>Paid Fees (General):</label>
+  <input type="number" id="paid">
+
+  <label>Mode of Payment:</label><br>
+  <input type="radio" name="mode" value="cheque"> Cheque
+  <input type="radio" name="mode" value="online"> UPI
+  <input type="radio" name="mode" value="cash"> Cash
+
+  <!-- Extra Fields -->
+  <div id="chequeBox" class="hide">
+    <label>Cheque No:</label><input type="text" id="chequeNo">
+    <label>Cheque Amount:</label><input type="number" id="chequeAmt">
+  </div>
+
+  <div id="upiBox" class="hide">
+    <label>UPI ID:</label><input type="text" id="upiId">
+    <label>UPI Amount:</label><input type="number" id="upiAmt">
+  </div>
+
+  <div id="cashBox" class="hide">
+    <label>Cash Amount:</label><input type="number" id="cashAmt">
+  </div>
+
+  <label>Remaining Fees:</label>
+  <input type="text" id="remain" readonly>
+
+  <button onclick="generatePDF()">Convert to PDF</button>
+</div>
+
+<script>
+  // Handle radio button selection
+  let radios = document.getElementsByName("mode");
+  radios.forEach(r => {
+    r.addEventListener("change", function() {
+      document.getElementById("chequeBox").classList.add("hide");
+      document.getElementById("upiBox").classList.add("hide");
+      document.getElementById("cashBox").classList.add("hide");
+
+      if (this.value === "cheque") document.getElementById("chequeBox").classList.remove("hide");
+      if (this.value === "online") document.getElementById("upiBox").classList.remove("hide");
+      if (this.value === "cash") document.getElementById("cashBox").classList.remove("hide");
+
+      updateRemaining();
+    });
+  });
+
+  // Update Remaining Fees
+  function updateRemaining() {
+    let total = Number(document.getElementById("total").value) || 0;
+    let paid = Number(document.getElementById("paid").value) || 0;
+    let cheque = Number(document.getElementById("chequeAmt").value) || 0;
+    let upi = Number(document.getElementById("upiAmt").value) || 0;
+    let cash = Number(document.getElementById("cashAmt").value) || 0;
+
+    let totalPaid = paid + cheque + upi + cash;
+    document.getElementById("remain").value = total - totalPaid;
+  }
+
+  // Attach updateRemaining to all inputs
+  document.querySelectorAll("input").forEach(inp => {
+    inp.addEventListener("input", updateRemaining);
+  });
+
+  // Export PDF
+  function generatePDF() {
+    let element = document.getElementById("payBox");
+    let opt = {
+      margin: 0.5,
+      filename: 'payment.pdf',
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
+  }
+</script>
+
+</body>
+</html>

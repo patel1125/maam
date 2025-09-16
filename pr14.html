@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scroll Counter</title>
+  <style>
+    .counter-box {
+      display: flex;
+      justify-content: space-around;
+      padding: 30px;
+      background: #eee;
+      font-size: 40px;
+      font-weight: bold;
+      color: purple;
+    }
+    .number {
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+  </style>
+</head>
+<body style="height:2000px;"> <!-- Big height to allow scrolling -->
+
+  <div class="counter-box">
+    <div class="number" data-target="910">0</div>
+    <div class="number" data-target="1399">0</div>
+    <div class="number" data-target="1777">0</div>
+    <div class="number" data-target="2254">0</div>
+  </div>
+
+  <script>
+    let counters = document.querySelectorAll(".number");
+    let started = false;
+
+    function countUp(counter) {
+      let target = +counter.getAttribute("data-target");
+      let count = 0;
+      let speed = target / 100; // adjust speed
+
+      let updateCount = setInterval(() => {
+        count += speed;
+        if (count >= target) {
+          count = target;
+          clearInterval(updateCount);
+        }
+        counter.innerText = Math.floor(count);
+      }, 30);
+    }
+
+    window.addEventListener("scroll", () => {
+      let top = document.querySelector(".counter-box").offsetTop;
+      let height = window.innerHeight;
+
+      if (!started && window.scrollY + height > top) {
+        counters.forEach((counter) => {
+          counter.style.opacity = 1;
+          countUp(counter);
+        });
+        started = true;
+      }
+    });
+  </script>
+</body>
+</html>

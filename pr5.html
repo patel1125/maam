@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Responsive Toggle Menu</title>
+  <style>
+    body { margin:0; font-family:sans-serif; }
+
+    /* Navbar */
+    .navbar {
+      background:#e38;
+      padding:10px 20px;
+      color:white;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    /* Menu links */
+    .menu {
+      display:flex;
+      gap:20px;
+    }
+    .menu a {
+      color:white;
+      text-decoration:none;
+      font-weight:bold;
+    }
+
+    /* Toggle button (hidden by default) */
+    .toggle-btn {
+      display:none;
+      font-size:24px;
+      cursor:pointer;
+    }
+
+    /* Mobile styles */
+    @media (max-width:600px) {
+      .menu {
+        display:none;
+        flex-direction:column;
+        background:black;
+        position:absolute;
+        top:50px;
+        left:0;
+        width:100%;
+        padding:20px;
+      }
+      .menu a { color:white; padding:10px 0; }
+      .toggle-btn { display:block; }
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <span><b>LOGO</b></span>
+    <div class="menu" id="menu">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="#">Help</a>
+    </div>
+    <span class="toggle-btn" onclick="toggleMenu()">☰</span>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      let menu = document.getElementById("menu");
+      if (menu.style.display === "flex") {
+        menu.style.display = "none";
+      } else {
+        menu.style.display = "flex";
+      }
+    }
+  </script>
+</body>
+</html>

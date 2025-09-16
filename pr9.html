@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Result with PDF & Print</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .container {
+      width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid black;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+    input {
+      width: 80px;
+      margin: 5px 0;
+    }
+    .btns {
+      margin-top: 15px;
+    }
+    button {
+      margin: 5px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="marksheet">
+    <h3>Marksheet for Information Technology</h3>
+    <p>Enter Marks (Each subject out of 50)</p>
+
+    <label>1. C Language</label> 
+    <input type="number" id="sub1"><span class="error" id="err1"></span><br>
+
+    <label>2. C++ Language</label> 
+    <input type="number" id="sub2"><span class="error" id="err2"></span><br>
+
+    <label>3. Database</label> 
+    <input type="number" id="sub3"><span class="error" id="err3"></span><br>
+
+    <label>4. HTML</label> 
+    <input type="number" id="sub4"><span class="error" id="err4"></span><br>
+
+    <label>5. CSS</label> 
+    <input type="number" id="sub5"><span class="error" id="err5"></span><br>
+
+    <label>6. PHP</label> 
+    <input type="number" id="sub6"><span class="error" id="err6"></span><br>
+
+    <label>7. Core Java</label> 
+    <input type="number" id="sub7"><span class="error" id="err7"></span><br><br>
+
+    <button onclick="calculateResult()">Result</button>
+    <p>Total is : <span id="total">000</span> / 350</p>
+    <p>Percentage is : <span id="percent">0</span>%</p>
+    <p>You are : <span id="status">---</span></p>
+  </div>
+
+  <div class="btns">
+    <button onclick="downloadPDF()">Download PDF</button>
+    <button onclick="window.print()">Print</button>
+  </div>
+
+  <!-- html2pdf.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script>
+    function calculateResult() {
+      let valid = true;
+      let total = 0;
+      let maxMarks = 50;
+
+      for (let i = 1; i <= 7; i++) {
+        let val = document.getElementById("sub" + i).value;
+        let num = parseInt(val);
+
+        if (isNaN(num) || num < 0 || num > maxMarks) {
+          document.getElementById("err" + i).innerText = " invalid marks";
+          valid = false;
+        } else {
+          document.getElementById("err" + i).innerText = "";
+          total += num;
+        }
+      }
+
+      if (!valid) {
+        document.getElementById("total").innerText = "000";
+        document.getElementById("percent").innerText = "0";
+        document.getElementById("status").innerText = "Invalid input!";
+        document.getElementById("status").style.color = "red";
+        return;
+      }
+
+      let percent = (total / 350) * 100;
+      document.getElementById("total").innerText = total;
+      document.getElementById("percent").innerText = percent.toFixed(2);
+
+      if (percent >= 35) {
+        document.getElementById("status").innerText = "Pass";
+        document.getElementById("status").style.color = "green";
+      } else {
+        document.getElementById("status").innerText = "Fail";
+        document.getElementById("status").style.color = "red";
+      }
+    }
+
+    // Q.9 - Download PDF
+    function downloadPDF() {
+      const element = document.getElementById("marksheet");
+      const opt = {
+        margin:       0.5,
+        filename:     'Student_Marksheet.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+    }
+  </script>
+</body>
+</html>

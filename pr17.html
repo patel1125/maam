@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Validation</title>
+  <style>
+    body { font-family: Arial; background:#f4f4f4; padding:20px; }
+    .form-box { width:420px; margin:auto; background:#fff; border:1px solid #ccc; padding:20px; border-radius:6px; }
+    input, select, textarea { width:100%; padding:8px; margin:8px 0; border:1px solid #ccc; border-radius:4px; }
+    .error { color:red; font-size:13px; margin-top:-5px; min-height:16px; }
+    button { background:crimson; color:white; padding:10px; border:none; width:100%; border-radius:4px; cursor:pointer; }
+    button:hover { background:darkred; }
+    .password-box { position:relative; }
+    .toggle { position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; }
+    h2 { text-align:center; }
+  </style>
+</head>
+<body>
+
+<div class="form-box">
+  <h2>Register Here</h2>
+  <form id="myForm">
+    <input type="text" id="fname" placeholder="Firstname">
+    <div class="error" id="fnameErr"></div>
+
+    <input type="text" id="lname" placeholder="Lastname">
+    <div class="error" id="lnameErr"></div>
+
+    <label><input type="radio" name="gender" value="Male"> Male</label>
+    <label><input type="radio" name="gender" value="Female"> Female</label>
+    <div class="error" id="genderErr"></div>
+
+    <textarea id="address" placeholder="Enter address (35-200 characters)"></textarea>
+    <div class="error" id="addressErr"></div>
+
+    <select id="city">
+      <option value="">--Select City--</option>
+      <option>Surat</option>
+      <option>Ahmedabad</option>
+      <option>Vadodara</option>
+    </select>
+    <div class="error" id="cityErr"></div>
+
+    <input type="text" id="mobile" placeholder="Mobile No">
+    <div class="error" id="mobileErr"></div>
+
+    <input type="email" id="email" placeholder="Email">
+    <div class="error" id="emailErr"></div>
+
+    <div class="password-box">
+      <input type="password" id="password" placeholder="Enter Password (8-15 chars)">
+      <span class="toggle" onclick="togglePassword('password')">👁</span>
+    </div>
+    <div class="error" id="passErr"></div>
+
+    <div class="password-box">
+      <input type="password" id="cpassword" placeholder="Confirm Password">
+      <span class="toggle" onclick="togglePassword('cpassword')">👁</span>
+    </div>
+    <div class="error" id="cpassErr"></div>
+
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<script>
+  function togglePassword(id) {
+    let field = document.getElementById(id);
+    field.type = field.type === "password" ? "text" : "password";
+  }
+
+  // Validation functions
+  function validateFname() {
+    let fname = document.getElementById("fname").value.trim();
+    if (!/^[A-Za-z]+$/.test(fname)) {
+      document.getElementById("fnameErr").innerText = "Enter valid firstname (alphabets only)";
+      return false;
+    }
+    document.getElementById("fnameErr").innerText = "";
+    return true;
+  }
+
+  function validateLname() {
+    let lname = document.getElementById("lname").value.trim();
+    if (!/^[A-Za-z]+$/.test(lname)) {
+      document.getElementById("lnameErr").innerText = "Enter valid lastname (alphabets only)";
+      return false;
+    }
+    document.getElementById("lnameErr").innerText = "";
+    return true;
+  }
+
+  function validateGender() {
+    if (![...document.getElementsByName("gender")].some(r => r.checked)) {
+      document.getElementById("genderErr").innerText = "Select gender";
+      return false;
+    }
+    document.getElementById("genderErr").innerText = "";
+    return true;
+  }
+
+  function validateAddress() {
+    let address = document.getElementById("address").value.trim();
+    if (address.length < 35 || address.length > 200) {
+      document.getElementById("addressErr").innerText = "Address must be 35-200 characters";
+      return false;
+    }
+    document.getElementById("addressErr").innerText = "";
+    return true;
+  }
+
+  function validateCity() {
+    if (document.getElementById("city").value === "") {
+      document.getElementById("cityErr").innerText = "Select city";
+      return false;
+    }
+    document.getElementById("cityErr").innerText = "";
+    return true;
+  }
+
+  function validateMobile() {
+    let mobile = document.getElementById("mobile").value.trim();
+    if (!/^[0-9]{10}$/.test(mobile)) {
+      document.getElementById("mobileErr").innerText = "Enter valid 10 digit mobile number";
+      return false;
+    }
+    document.getElementById("mobileErr").innerText = "";
+    return true;
+  }
+
+  function validateEmail() {
+    let email = document.getElementById("email").value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      document.getElementById("emailErr").innerText = "Enter valid email";
+      return false;
+    }
+    document.getElementById("emailErr").innerText = "";
+    return true;
+  }
+
+  function validatePassword() {
+    let pass = document.getElementById("password").value.trim();
+    if (pass.length < 8 || pass.length > 15) {
+      document.getElementById("passErr").innerText = "Password must be 8-15 characters";
+      return false;
+    }
+    document.getElementById("passErr").innerText = "";
+    return true;
+  }
+
+  function validateCPassword() {
+    let pass = document.getElementById("password").value.trim();
+    let cpass = document.getElementById("cpassword").value.trim();
+    if (cpass !== pass || cpass === "") {
+      document.getElementById("cpassErr").innerText = "Passwords do not match";
+      return false;
+    }
+    document.getElementById("cpassErr").innerText = "";
+    return true;
+  }
+
+  // Event listeners for real-time validation
+  document.getElementById("fname").addEventListener("input", validateFname);
+  document.getElementById("lname").addEventListener("input", validateLname);
+  document.getElementById("address").addEventListener("input", validateAddress);
+  document.getElementById("city").addEventListener("change", validateCity);
+  document.getElementById("mobile").addEventListener("input", validateMobile);
+  document.getElementById("email").addEventListener("input", validateEmail);
+  document.getElementById("password").addEventListener("input", validatePassword);
+  document.getElementById("cpassword").addEventListener("input", validateCPassword);
+  document.getElementsByName("gender").forEach(r => r.addEventListener("change", validateGender));
+
+  // On submit
+  document.getElementById("myForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    if (validateFname() && validateLname() && validateGender() && validateAddress() &&
+        validateCity() && validateMobile() && validateEmail() && validatePassword() && validateCPassword()) {
+      alert("✅ Form submitted successfully!");
+      document.getElementById("myForm").reset();
+    }
+  });
+</script>
+
+</body>
+</html>

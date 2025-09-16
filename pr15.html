@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Toggle Sidebar Menu</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;  /* 👉 change to right:0; if you want from right side */
+      background-color: #111;
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
+      z-index: 1000;
+    }
+
+    .sidebar a {
+      padding: 12px 20px;
+      text-decoration: none;
+      font-size: 20px;
+      color: white;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #575757;
+    }
+
+    /* Open Button */
+    .openbtn {
+      font-size: 28px;
+      cursor: pointer;
+      background-color: #111;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 1100;
+    }
+
+    /* Main content */
+    #main {
+      transition: margin-left 0.5s;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" onclick="closeNav()">✖ Close</a>
+    <a href="#">🏠 Home</a>
+    <a href="#">ℹ️ About</a>
+    <a href="#">💼 Services</a>
+    <a href="#">📞 Contact</a>
+  </div>
+
+  <!-- Main Content -->
+  <div id="main">
+    <button class="openbtn" onclick="openNav()">☰ </button>
+    
+    
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    }
+  </script>
+
+</body>
+</html>

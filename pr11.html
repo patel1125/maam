@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Math Operations</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .container {
+      width: 350px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid black;
+      text-align: center;
+    }
+    input {
+      width: 120px;
+      margin: 5px 0;
+      padding: 5px;
+    }
+    button {
+      width: 50px;
+      margin: 5px;
+      padding: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #answer {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3>Maths Operations</h3>
+    <label>Enter 1st number :</label><br>
+    <input type="number" id="num1"><br>
+    <label>Enter 2nd number :</label><br>
+    <input type="number" id="num2"><br><br>
+
+    <!-- Buttons for operations -->
+    <button onclick="calculate('+')">+</button>
+    <button onclick="calculate('-')">-</button>
+    <button onclick="calculate('')"></button>
+    <button onclick="calculate('/')">/</button>
+    <button onclick="calculate('%')">%</button>
+
+    <p id="answer">Answer is : </p>
+  </div>
+
+  <script>
+    function calculate(op) {
+      let n1 = parseFloat(document.getElementById("num1").value);
+      let n2 = parseFloat(document.getElementById("num2").value);
+      let result;
+
+      if (isNaN(n1) || isNaN(n2)) {
+        document.getElementById("answer").innerText = "Answer is : Invalid Input";
+        return;
+      }
+
+      switch (op) {
+        case '+': result = n1 + n2; break;
+        case '-': result = n1 - n2; break;
+        case '*': result = n1 * n2; break;
+        case '/': result = n2 !== 0 ? (n1 / n2).toFixed(2) : "Divide by Zero!"; break;
+        case '%': result = n2 !== 0 ? (n1 % n2) : "Divide by Zero!"; break;
+      }
+
+      document.getElementById("answer").innerText = "Answer is : " + result;
+    }
+  </script>
+</body>
+</html>

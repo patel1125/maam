@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Date Difference Calculator</title>
+  <style>
+    body { font-family: Arial; background:#f4f4f4; padding:20px; }
+    .box { width:400px; margin:auto; background:#fff; padding:20px; border-radius:6px; box-shadow:0 0 5px #999; }
+    input, button { width:100%; padding:8px; margin:6px 0; border:1px solid #ccc; border-radius:4px; }
+    button { background:seagreen; color:#fff; cursor:pointer; font-weight:bold; }
+    button:hover { background:darkgreen; }
+    h3 { text-align:center; }
+    .result { margin-top:15px; padding:10px; background:#f9f9f9; border:1px solid #ddd; border-radius:4px; }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h3>Date Difference Calculator</h3>
+
+  <label>Enter Start Date:</label>
+  <input type="date" id="startDate">
+
+  <label>Enter End Date:</label>
+  <input type="date" id="endDate">
+
+  <button onclick="calculateDiff()">Display Difference</button>
+
+  <div class="result" id="output"></div>
+</div>
+
+<script>
+function calculateDiff() {
+  let start = new Date(document.getElementById("startDate").value);
+  let end = new Date(document.getElementById("endDate").value);
+
+  if (isNaN(start) || isNaN(end)) {
+    document.getElementById("output").innerHTML = "<b>Please select both dates.</b>";
+    return;
+  }
+
+  // Difference in Days
+  let diffTime = Math.abs(end - start);
+  let diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  // Difference in Years, Months, Days
+  let years = end.getFullYear() - start.getFullYear();
+  let months = end.getMonth() - start.getMonth();
+  let days = end.getDate() - start.getDate();
+
+  if (days < 0) {
+    months--;
+    let prevMonth = new Date(end.getFullYear(), end.getMonth(), 0).getDate();
+    days += prevMonth;
+  }
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+
+  document.getElementById("output").innerHTML = `
+    <b>Total Difference:</b><br>
+    Days = ${diffDays}<br>
+    Months = ${months}<br>
+    Years = ${years}
+  `;
+}
+</script>
+
+</body>
+</html>

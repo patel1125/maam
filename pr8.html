@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Result</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .container {
+      width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid black;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+    input {
+      width: 80px;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3>Marksheet for Information Technology</h3>
+    <p>Enter Marks (Each subject out of 50)</p>
+
+    <label>1. C Language</label> 
+    <input type="number" id="sub1"><span class="error" id="err1"></span><br>
+
+    <label>2. C++ Language</label> 
+    <input type="number" id="sub2"><span class="error" id="err2"></span><br>
+
+    <label>3. Database</label> 
+    <input type="number" id="sub3"><span class="error" id="err3"></span><br>
+
+    <label>4. HTML</label> 
+    <input type="number" id="sub4"><span class="error" id="err4"></span><br>
+
+    <label>5. CSS</label> 
+    <input type="number" id="sub5"><span class="error" id="err5"></span><br>
+
+    <label>6. PHP</label> 
+    <input type="number" id="sub6"><span class="error" id="err6"></span><br>
+
+    <label>7. Core Java</label> 
+    <input type="number" id="sub7"><span class="error" id="err7"></span><br><br>
+
+    <button onclick="calculateResult()">Result</button>
+    <p>Total is : <span id="total">000</span> / 350</p>
+    <p>Percentage is : <span id="percent">0</span>%</p>
+    <p>You are : <span id="status">---</span></p>
+  </div>
+
+  <script>
+    function calculateResult() {
+      let valid = true;
+      let total = 0;
+      let maxMarks = 50;
+
+      // Loop through subjects
+      for (let i = 1; i <= 7; i++) {
+        let val = document.getElementById("sub" + i).value;
+        let num = parseInt(val);
+
+        // Validate
+        if (isNaN(num) || num < 0 || num > maxMarks) {
+          document.getElementById("err" + i).innerText = " invalid marks";
+          valid = false;
+        } else {
+          document.getElementById("err" + i).innerText = "";
+          total += num;
+        }
+      }
+
+      if (!valid) {
+        document.getElementById("total").innerText = "000";
+        document.getElementById("percent").innerText = "0";
+        document.getElementById("status").innerText = "Invalid input!";
+        return;
+      }
+
+      // Calculate percentage
+      let percent = (total / 350) * 100;
+      document.getElementById("total").innerText = total;
+      document.getElementById("percent").innerText = percent.toFixed(2);
+
+      // Pass or Fail
+      if (percent >= 35) {
+        document.getElementById("status").innerText = "Pass";
+        document.getElementById("status").style.color = "green";
+      } else {
+        document.getElementById("status").innerText = "Fail";
+        document.getElementById("status").style.color = "red";
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Responsive Navbar with Scroll Effect</title>
+  <style>
+    body {
+      margin: 0;
+      height: 2000px; /* to allow scrolling */
+      font-family: Arial, sans-serif;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 15px 20px;
+      background: transparent;
+      color: black;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.5s ease, 
+                  color 0.5s ease, 
+                  box-shadow 0.5s ease,
+                  padding 0.3s ease;
+      z-index: 1000;
+    }
+
+    /* Menu links */
+    .menu {
+      display: flex;
+      gap: 20px;
+    }
+    .menu a {
+      color: inherit;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* Toggle button */
+    .toggle-btn {
+      display: none;
+      font-size: 26px;
+      cursor: pointer;
+    }
+
+    /* Mobile styles */
+    @media (max-width: 600px) {
+      .menu {
+        display: none;
+        flex-direction: column;
+        background: black;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+      }
+      .menu a { 
+        color: white; 
+        padding: 10px 0; 
+      }
+      .toggle-btn {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar" id="navbar">
+    <span><b>LOGO</b></span>
+    <div class="menu" id="menu">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="#">Help</a>
+    </div>
+    <span class="toggle-btn" id="toggleBtn">☰</span>
+  </div>
+
+  <script>
+    // Toggle menu (for small screens)
+    document.getElementById("toggleBtn").addEventListener("click", function() {
+      let menu = document.getElementById("menu");
+      if (menu.style.display === "flex") {
+        menu.style.display = "none";
+      } else {
+        menu.style.display = "flex";
+      }
+    });
+
+    // Change navbar background on scroll
+    window.addEventListener("scroll", function() {
+      let nav = document.getElementById("navbar");
+      if (window.scrollY > 0) {
+        nav.style.background = "purple";
+        nav.style.color = "white";
+        nav.style.boxShadow = "0 4px 12px rgba(0,0,0,0.3)";
+        nav.style.padding = "10px 20px"; // shrink effect
+      } else {
+        nav.style.background = "transparent";
+        nav.style.color = "black";
+        nav.style.boxShadow = "none";
+        nav.style.padding = "15px 20px"; // normal size
+      }
+    });
+  </script>
+</body>
+</html>
